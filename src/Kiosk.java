@@ -69,3 +69,4 @@ public class Kiosk {
         return taxRate;
     }
 }
+

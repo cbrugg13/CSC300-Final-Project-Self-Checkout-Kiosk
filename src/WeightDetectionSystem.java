@@ -21,3 +21,4 @@ public class WeightDetectionSystem {
         return isCalibrated;
     }
 }
+

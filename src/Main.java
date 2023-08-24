@@ -37,3 +37,4 @@ public class Main {
         System.out.println("Receipt verification: " + isVerified);
     }
 }
+
