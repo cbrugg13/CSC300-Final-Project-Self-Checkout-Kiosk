@@ -19,6 +19,15 @@ public class Employee {
         return false;
     }
 
+    public boolean verifyAge(Customer customer) 
+    {
+        if (customer.getAge() >= 21) {
+            return true;
+        }
+        else
+            return false;
+    }
+
     public int getId() {
         return id;
     }
