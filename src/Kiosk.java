@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Kiosk {
+    Scanner in = new Scanner(System.in);
+
     private int id;
     private String location;
     private String type;
@@ -50,7 +53,14 @@ public class Kiosk {
         total = total - removed;            // subtracts the prices of the items that were removed due to failed verification/authorization.
 
         if (pm.getType().equals("Credit Card")) {
-            System.out.println("Total amount charged to credit card: $" + (Math.round(total * 100.0) / 100.0) + "0");
+            System.out.println("Total Items: " + customer.getCart().size());
+            System.out.println("How many bages did you use today? (1 bag costs 5 cents)");
+            System.out.print("Bags Used: ");
+            int bagUsed = in.nextInt();
+            float bagPrice = 0.05f;
+            total = total + (bagUsed * bagPrice);
+
+            System.out.println(">> Total amount charged to credit card: $" + (Math.round(total * 100.0) / 100.0) + "0");
         } else {
             System.out.println("Payment method not supported.");
         }

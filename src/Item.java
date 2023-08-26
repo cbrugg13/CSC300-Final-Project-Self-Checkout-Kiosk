@@ -15,6 +15,15 @@ public class Item implements PLUInterface {
         this.isAlcohol = isAlcohol;
     }
 
+    // Another constructor for when a gift card is added to the customer's cart. Does not include total
+    public Item(int pluCode, String name, double weight, boolean isAgeRestricted, boolean isAlcohol) {
+        this.pluCode = pluCode;
+        this.name = name;
+        this.weight = weight;
+        this.isAgeRestricted = isAgeRestricted;
+        this.isAlcohol = isAlcohol;
+    }
+
     @Override
     public Item searchItemByPLU(int pluCode) {
         if (this.pluCode == pluCode) {

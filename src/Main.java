@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
 
         // Items that will be in the cart.
         Item apple = new Item(1, "Apple", 1.0f, 0.33, false, false);
@@ -39,8 +41,10 @@ public class Main {
         // Employee that will be attending the customer (if necessary)
         Employee employee = new Employee(1, "John", "Manager", "john@email.com");
 
-        // The customer
+
+        // ---------------------------------------------The customer-----------------------------------------------------------
         Customer customer1 = new Customer(1, "Adam", 22, 1, true, items);
+        // --------------------------------------------------------------------------------------------------------------------
 
 
         // Iteration of the items that are in the Customer's cart.
@@ -133,6 +137,10 @@ public class Main {
             removeFromTotal += itemsRemoved.get(i).getPrice();      // added into one variable to later subtract from the customer's new total.
         }
 
+
+    
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~GIFT CARD~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
         // if statement that is entered if the customer wants to purchase a gift card.
         if(customer1.wantsGiftCard()) 
         {
@@ -142,11 +150,26 @@ public class Main {
             notificationSystem.getGiftCardNotifications();
             System.out.println();
 
+            // the customer makes their final decision on their gift card purchase----------------------------
+            System.out.println("Are you sure you want to purchase this gift card?");
+            System.out.println("1 = Yes \n0 = No");
+            int userChoice = in.nextInt();
+            if(userChoice == 1){
+                giftCardCancel = false;
+            }
+            else{
+                giftCardCancel = true;
+            }
+            //------------------------------------------------------------------------------------------------
+
 
             // if the customer changes their mind, the gift card amount will not be added to the total.
             // if not, the amount on the gift card will be added to the total.
             if(!giftCardCancel) {
                 GiftCard giftcard1 = new GiftCard(1, true, 25.0f);
+                Item giftCard = new Item(items.size()+1, "Gift Card", 0.1, false, false);
+                items.add(giftCard);
+                System.out.println(">> Your gift card of $" + giftcard1.getAmount() + "0 has been added to your cart.\n");
                 kiosk.checkout(customer1, paymentMethod, receipt, notificationSystem, giftcard1, removeFromTotal);
             }
             else{
@@ -154,6 +177,11 @@ public class Main {
                 kiosk.checkout(customer1, paymentMethod, receipt, notificationSystem, giftcard1, removeFromTotal);
             }            
         }
+        // gift card is created but nothing is added to the total.
+        else {
+            GiftCard giftcard1 = new GiftCard(1, false, 0.0f);
+            kiosk.checkout(customer1, paymentMethod, receipt, notificationSystem, giftcard1, removeFromTotal);
+        }        
 
         
         //kiosk.scanItem(apple, weightSystem, notificationSystem);
