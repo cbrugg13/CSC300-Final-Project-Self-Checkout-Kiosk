@@ -1,14 +1,12 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class ScanScreen extends JFrame {
+public class WeightScreen extends JFrame {
     JList<String> itemList; // This will display the items in the cart.
     DefaultListModel<String> listModel; // The model for the JList.
 
-    public ScanScreen() {
+    public WeightScreen() {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 
         // Left Rectangle with Cart Details
@@ -20,13 +18,13 @@ public class ScanScreen extends JFrame {
         itemList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(itemList);
         scrollPane.setBounds(50, 100, 450, 400);
-
+        
         JLabel subtotalLabel = new JLabel("Subtotal: ");
         subtotalLabel.setBounds(50, 520, 200, 25);
-
+        
         JLabel totalTaxLabel = new JLabel("Total Taxes: ");
         totalTaxLabel.setBounds(50, 550, 200, 25);
-
+        
         JLabel totalLabel = new JLabel("Total: ");
         totalLabel.setBounds(50, 580, 200, 25);
 
@@ -34,29 +32,18 @@ public class ScanScreen extends JFrame {
         cancelItemButton.setBounds(50, 620, 200, 50);
 
         JButton checkoutButton = new JButton("Checkout");
-        checkoutButton.setBounds(225, 620, 200, 50);
+        checkoutButton.setBounds(300, 620, 200, 50);
 
-        JButton scanButton = new JButton("Scan");
-        scanButton.setBounds(450, 620, 200, 50);
-        scanButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // For testing: every time "Scan" is pressed, a dummy item will be added.
-                listModel.addElement("Dummy Item - $1.99");
-            }
-        });
-
-        // Right Rectangle with Placeholder
-        JLabel placeholder = new JLabel("PleaseScanYourItems.jpg"); // Replace with an actual image for final product.
+        // Right Rectangle with Placeholder for Weighting
+        JLabel placeholder = new JLabel("WeightItems.jpg"); // Replace with actual image later.
         placeholder.setBorder(border);
         placeholder.setBounds(600, 100, 450, 400);
 
         JButton itemCodeButton = new JButton("Item Code");
-        itemCodeButton.setBounds(675, 620, 200, 50);
-
-        // "Assist Mode" button - Adjusted the position from StartScreen to avoid clipping
+        itemCodeButton.setBounds(725, 620, 200, 50);
+        
         JButton assistModeButton = new JButton("Assist Mode");
-        assistModeButton.setBounds(900, 620, 155, 50);
+        assistModeButton.setBounds(950, 620, 155, 50);
 
         // Adding components to JFrame
         this.add(myCartLabel);
@@ -66,7 +53,6 @@ public class ScanScreen extends JFrame {
         this.add(totalLabel);
         this.add(cancelItemButton);
         this.add(checkoutButton);
-        this.add(scanButton);
         this.add(placeholder);
         this.add(itemCodeButton);
         this.add(assistModeButton);
@@ -76,9 +62,5 @@ public class ScanScreen extends JFrame {
         this.setSize(1200, 750);
         this.setLayout(null);
         this.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new ScanScreen();
     }
 }
