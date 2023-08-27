@@ -5,14 +5,18 @@ public class Item implements PLUInterface {
     private double weight;
     private boolean isAgeRestricted;
     private boolean isAlcohol;
+    private boolean requiresWeightCheck;
+    private boolean causesWeightError;
 
-    public Item(int pluCode, String name, float price, double weight, boolean isAgeRestricted, boolean isAlcohol) {
+    public Item(int pluCode, String name, float price, double weight, boolean isAgeRestricted, boolean isAlcohol, boolean requiresWeightCheck, boolean causesWeightError) {
         this.pluCode = pluCode;
         this.name = name;
         this.price = price;
         this.weight = weight;
         this.isAgeRestricted = isAgeRestricted;
         this.isAlcohol = isAlcohol;
+        this.requiresWeightCheck = requiresWeightCheck;
+        this.causesWeightError = causesWeightError;
     }
 
     // Another constructor for when a gift card is added to the customer's cart. Does not include total
@@ -55,5 +59,12 @@ public class Item implements PLUInterface {
     public boolean isAlcohol() {
         return isAlcohol;
     }
-}
 
+    public boolean requiresWeightCheck() {
+        return requiresWeightCheck;
+    }
+
+    public boolean causesWeightError() {
+        return causesWeightError;
+    }
+}
