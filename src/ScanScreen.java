@@ -7,6 +7,20 @@ import javax.swing.border.Border;
 public class ScanScreen extends JFrame {
     JList<String> itemList; // This will display the items in the cart.
     DefaultListModel<String> listModel; // The model for the JList.
+    WeightDetectionSystem weightSystem = new WeightDetectionSystem(0f, 10f, true);
+
+    private boolean isWeightCorrect(Item item) {
+        if (!item.requiresWeightCheck()) {
+            return true; // if the item doesn't need to be weighed, always return true
+        }
+
+        if (item.causesWeightError()) {
+            return false; // this simulates the weight error
+        }
+
+        // Here, one could add logic to check the weight system and the weight of the item.
+        return true; // assume it's correct if no errors were simulated.
+    }
 
     public ScanScreen() {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
@@ -41,11 +55,42 @@ public class ScanScreen extends JFrame {
         scanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // For testing: every time "Scan" is pressed, a dummy item will be added.
-                listModel.addElement("Dummy Item - $1.99");
+                // Mock scanning an item
+                Item scannedItem = Database.getRandomItem();
+        
+                if (scannedItem == null) {
+                    JOptionPane.showMessageDialog(null, "No items in the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+        
+                if (scannedItem.requiresWeightCheck() && !isWeightCorrect(scannedItem)) {
+                    // Show a pop-up that disappears after 4 seconds
+                    JOptionPane optionPane = new JOptionPane("Weight error. Please scan again.", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Error");
+                    Timer timer = new Timer(4000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            dialog.setVisible(false);
+                            dialog.dispose();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                    dialog.setVisible(true);
+        
+                    // On second scan, prompt employee check
+                    if (!isWeightCorrect(scannedItem)) {
+                        // Notify the employee (simulated for now with a popup)
+                        JOptionPane.showMessageDialog(null, "A Team Member Is On Their Way To Assist", "Error", JOptionPane.ERROR_MESSAGE);
+                        // In a real-world application, we'd probably integrate with the NotificationSystem to send the notification to the employee.
+                    }
+                } else {
+                    // Add the item to the cart
+                    listModel.addElement(scannedItem.getName() + " - $" + scannedItem.getPrice());
+                }
             }
         });
-
+        
         // Right Rectangle with Placeholder
         JLabel placeholder = new JLabel("PleaseScanYourItems.jpg"); // Replace with an actual image for final product.
         placeholder.setBorder(border);
