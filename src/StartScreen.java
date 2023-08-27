@@ -3,10 +3,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-public class StartScreen extends JFrame implements ActionListener{
+public class StartScreen extends JFrame implements ActionListener {
     JButton button, button2;
 
-    StartScreen(){
+    StartScreen() {
         
         Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 
@@ -19,10 +19,9 @@ public class StartScreen extends JFrame implements ActionListener{
         label.setVerticalTextPosition(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBounds(350,200,500,200);
+        label.setBounds(350, 200, 500, 200);
         label.setFont(new Font("Calibri", Font.PLAIN, 40));
         // -----------------------------------------------------------------------------------------
-
 
         // ======================================= BUTTON ==========================================
         button = new JButton();
@@ -34,7 +33,6 @@ public class StartScreen extends JFrame implements ActionListener{
         button.setVerticalTextPosition(JButton.CENTER);
         button.setFont(new Font("Calibri", Font.BOLD, 35));
         // ======================================= BUTTON ==========================================
-
 
         // ======================================= BUTTON ==========================================
         button2 = new JButton();
@@ -48,7 +46,7 @@ public class StartScreen extends JFrame implements ActionListener{
         // ======================================= BUTTON ==========================================
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1200,700);
+        this.setSize(1200, 700);
         this.setLayout(null);
         this.add(button);
         this.add(button2);
@@ -58,8 +56,10 @@ public class StartScreen extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==button){
-            System.out.println("Test.");
+        if (e.getSource() == button) {
+            new ScanScreen(); // This line opens the ScanScreen.
+            this.dispose();   // This line closes the current StartScreen window.
         }
+        // Further logic for other buttons in future here
     }
 }
