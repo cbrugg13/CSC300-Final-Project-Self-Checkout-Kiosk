@@ -1,3 +1,4 @@
+/* 
 public class PaymentMethod {
     private String type;
     private String cardNumber;
@@ -22,3 +23,4 @@ public class PaymentMethod {
     }
 }
 
+*/

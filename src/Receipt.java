@@ -1,3 +1,4 @@
+/*
 import java.util.ArrayList;
 
 public class Receipt {
@@ -36,3 +37,4 @@ public class Receipt {
     }
 }
 
+*/

@@ -1,3 +1,4 @@
+/* 
 public class Charity {
     private int id;                // unique identifier for the charity
     private String name;           // name of the charity
@@ -65,3 +66,4 @@ public class Charity {
     }
 }
 
+*/

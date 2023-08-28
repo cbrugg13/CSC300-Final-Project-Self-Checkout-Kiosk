@@ -1,3 +1,4 @@
+/* 
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -86,4 +87,4 @@ public class Kiosk {
         return taxRate;
     }
 }
-
+*/

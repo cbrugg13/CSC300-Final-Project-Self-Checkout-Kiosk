@@ -1,3 +1,4 @@
+/* 
 public class GiftCard {
     private int giftCardID;
     private boolean activationStatus;
@@ -45,3 +46,4 @@ public class GiftCard {
     }
 }
 
+*/
