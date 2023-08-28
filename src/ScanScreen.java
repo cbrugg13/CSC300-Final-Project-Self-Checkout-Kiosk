@@ -9,6 +9,13 @@ public class ScanScreen extends JFrame {
     DefaultListModel<String> listModel; // The model for the JList.
     WeightDetectionSystem weightSystem = new WeightDetectionSystem(0f, 10f, true);
 
+    // Calculation variables
+    double subtotal = 0.0;
+    double tax = 0.0;
+    double total = 0.0;
+    final double TAX_RATE = 0.09;  // 9%
+    final double BAG_FEE = 0.10;  // 10 cents per bag
+
     private boolean isWeightCorrect(Item item) {
         if (!item.requiresWeightCheck()) {
             return true; // if the item doesn't need to be weighed, always return true
@@ -20,6 +27,71 @@ public class ScanScreen extends JFrame {
 
         // Here, one could add logic to check the weight system and the weight of the item.
         return true; // assume it's correct if no errors were simulated.
+    }
+
+    private void showBagPrompt() {
+        JDialog bagDialog = new JDialog(this, "Bag Count", true);
+        bagDialog.setLayout(new GridBagLayout());
+        bagDialog.setSize(300, 150);
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+    
+        JLabel bagCountLabel = new JLabel("How many bags have you used today?");
+        JTextField bagCountField = new JTextField("0", 3);
+        
+        JButton plusButton = new JButton("+");
+        plusButton.addActionListener(e -> {
+            int count = Integer.parseInt(bagCountField.getText());
+            bagCountField.setText(String.valueOf(++count));
+        });
+    
+        JButton minusButton = new JButton("-");
+        minusButton.addActionListener(e -> {
+            int count = Integer.parseInt(bagCountField.getText());
+            if (count > 0) {
+                bagCountField.setText(String.valueOf(--count));
+            }
+        });
+    
+        JButton enterButton = new JButton("Enter");
+        enterButton.addActionListener(e -> {
+            double bagFee = Integer.parseInt(bagCountField.getText()) * BAG_FEE;
+            total += bagFee;  // Add bag fee to total
+        
+            new CheckoutScreen(Integer.parseInt(bagCountField.getText()), listModel, subtotal, tax, total);
+            bagDialog.dispose();
+            ScanScreen.this.dispose();
+        });
+        
+        // Add the bag count label
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        bagDialog.add(bagCountLabel, gbc);
+    
+        // Add the minus button
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        bagDialog.add(minusButton, gbc);
+    
+        // Add the text field
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        bagDialog.add(bagCountField, gbc);
+    
+        // Add the plus button
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        bagDialog.add(plusButton, gbc);
+    
+        // Add the enter button
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        bagDialog.add(enterButton, gbc);
+        
+        bagDialog.setVisible(true);
     }
 
     public ScanScreen() {
@@ -35,13 +107,13 @@ public class ScanScreen extends JFrame {
         JScrollPane scrollPane = new JScrollPane(itemList);
         scrollPane.setBounds(50, 100, 450, 400);
 
-        JLabel subtotalLabel = new JLabel("Subtotal: ");
+        JLabel subtotalLabel = new JLabel("Subtotal: $0.00");
         subtotalLabel.setBounds(50, 520, 200, 25);
 
-        JLabel totalTaxLabel = new JLabel("Total Taxes: ");
+        JLabel totalTaxLabel = new JLabel("Total Taxes: $0.00");
         totalTaxLabel.setBounds(50, 550, 200, 25);
 
-        JLabel totalLabel = new JLabel("Total: ");
+        JLabel totalLabel = new JLabel("Total: $0.00");
         totalLabel.setBounds(50, 580, 200, 25);
 
         JButton cancelItemButton = new JButton("Cancel Item");
@@ -57,6 +129,12 @@ public class ScanScreen extends JFrame {
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(225, 620, 200, 50);
+        checkoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showBagPrompt();
+            }
+        });
 
         JButton scanButton = new JButton("Scan");
         scanButton.setBounds(450, 620, 200, 50);
@@ -95,6 +173,18 @@ public class ScanScreen extends JFrame {
                 } else {
                     // Add the item to the cart
                     listModel.addElement(scannedItem.getName() + " - $" + scannedItem.getPrice());
+        
+                    // Update the subtotal
+                    subtotal += scannedItem.getPrice();
+        
+                    // Calculate tax and total
+                    tax = subtotal * TAX_RATE;
+                    total = subtotal + tax;
+        
+                    // Update the labels
+                    subtotalLabel.setText("Subtotal: $" + String.format("%.2f", subtotal));
+                    totalTaxLabel.setText("Total Taxes: $" + String.format("%.2f", tax));
+                    totalLabel.setText("Total: $" + String.format("%.2f", total));
                 }
             }
         });
