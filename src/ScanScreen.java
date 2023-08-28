@@ -92,17 +92,32 @@ public class ScanScreen extends JFrame {
         });
         
         // Right Rectangle with Placeholder
-        JLabel placeholder = new JLabel("PleaseScanYourItems.jpg"); // Replace with an actual image for final product.
+        JLabel placeholder = new JLabel("*PleaseScanYourItems.jpg*"); // Replace with an actual image for final product.
         placeholder.setBorder(border);
         placeholder.setBounds(600, 100, 450, 400);
 
         JButton itemCodeButton = new JButton("Item Code");
         itemCodeButton.setBounds(675, 620, 200, 50);
+        itemCodeButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new NumericKeypadScreen(ScanScreen.this, NumericKeypadScreen.Mode.PLU_CODE);
+        }
+        });
 
         // "Assist Mode" button - Adjusted the position from StartScreen to avoid clipping
         JButton assistModeButton = new JButton("Assist Mode");
         assistModeButton.setBounds(900, 620, 155, 50);
 
+        // Listener for Assist Mode Button
+        assistModeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AssistModeScreen(ScanScreen.this, listModel);  // Open the assist mode screen and pass the current scan screen.
+                ScanScreen.this.setVisible(false); // Hide the ScanScreen while in AssistMode.
+            }
+        });
+        
         // Adding components to JFrame
         this.add(myCartLabel);
         this.add(scrollPane);
