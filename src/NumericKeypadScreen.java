@@ -102,7 +102,7 @@ public class NumericKeypadScreen extends JFrame {
 
     private void handleAgeVerification(String age) {
         // Logic to handle age verification can be added here
-        // For the sake of simplicity, I'm assuming legal age is 21
+        // Legal age is 21
         try {
             int ageInt = Integer.parseInt(age);
             if (ageInt >= 21) {
@@ -121,7 +121,7 @@ public class NumericKeypadScreen extends JFrame {
         try {
             double giftCardAmount = Double.parseDouble(amount);
             if (giftCardAmount > 0) {
-                // This is where you'd add the gift card amount to the transaction or whatever logic is needed
+                // Add gift card logic here
                 JOptionPane.showMessageDialog(this, "Gift card of $" + giftCardAmount + " added.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } else {
