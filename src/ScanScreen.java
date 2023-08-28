@@ -46,14 +46,6 @@ public class ScanScreen extends JFrame {
 
         JButton cancelItemButton = new JButton("Cancel Item");
         cancelItemButton.setBounds(50, 620, 200, 50);
-        cancelItemButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!listModel.isEmpty()) { // Check if the list isn't empty
-                    listModel.removeElementAt(listModel.size() - 1); // Remove the last item
-                }
-            }
-        });
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(225, 620, 200, 50);
@@ -92,7 +84,46 @@ public class ScanScreen extends JFrame {
                         JOptionPane.showMessageDialog(null, "A Team Member Is On Their Way To Assist", "Error", JOptionPane.ERROR_MESSAGE);
                         // In a real-world application, we'd probably integrate with the NotificationSystem to send the notification to the employee.
                     }
-                } else {
+                } 
+                
+                else if(scannedItem.isAgeRestricted() && scannedItem.isAlcohol()){
+                    // Show a pop-up that disappears after 4 seconds
+                    JOptionPane optionPane = new JOptionPane("Alcohol Detected. This item cannot be purchased at self-checkout.\nIt will not be added to your cart.", JOptionPane.ERROR_MESSAGE);
+                    // Removes the item from the cart.
+                    Database.removeItem(scannedItem.getPluCode());
+
+                    JDialog dialog = optionPane.createDialog("Error");
+                    Timer timer = new Timer(4000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            dialog.setVisible(false);
+                            dialog.dispose();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                    dialog.setVisible(true);
+                }
+
+                else if(scannedItem.isAgeRestricted() && !scannedItem.isAlcohol()){
+                    JOptionPane optionPane = new JOptionPane("Non-Alcoholic, Age-Restricted Item detected.", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Error");
+                    Timer timer = new Timer(4000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            dialog.setVisible(false);
+                            dialog.dispose();
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                    dialog.setVisible(true);
+
+                    // Notifies the employee. (should enter assist mode after employee scans badge)
+                    JOptionPane.showMessageDialog(null, "A Team Member Is On Their Way To Assist", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                else {
                     // Add the item to the cart
                     listModel.addElement(scannedItem.getName() + " - $" + scannedItem.getPrice());
                 }
@@ -107,25 +138,23 @@ public class ScanScreen extends JFrame {
         JButton itemCodeButton = new JButton("Item Code");
         itemCodeButton.setBounds(675, 620, 200, 50);
         itemCodeButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new NumericKeypadScreen(ScanScreen.this, NumericKeypadScreen.Mode.PLU_CODE);
-        }
+            public void actionPerformed(ActionEvent e){
+                new NumericKeypadScreen(ScanScreen.this, NumericKeypadScreen.Mode.PLU_CODE);
+            }
         });
 
         // "Assist Mode" button - Adjusted the position from StartScreen to avoid clipping
         JButton assistModeButton = new JButton("Assist Mode");
         assistModeButton.setBounds(900, 620, 155, 50);
-
+        
         // Listener for Assist Mode Button
-        assistModeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AssistModeScreen(ScanScreen.this, listModel);  // Open the assist mode screen and pass the current scan screen.
+        assistModeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                new AssistModeScreen(ScanScreen.this, listModel); // Open the assist mode screen and pass the current scan screen.
                 ScanScreen.this.setVisible(false); // Hide the ScanScreen while in AssistMode.
             }
         });
-        
+
         // Adding components to JFrame
         this.add(myCartLabel);
         this.add(scrollPane);
