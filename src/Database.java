@@ -15,9 +15,9 @@ public class Database {
         items.put(0123, new Item(0123, "Wine", 9.99f, 2.65, true, true, false, false));
         items.put(4567, new Item(4567, "Medicine", 19.99f, 1.0, true, false, false, false));
         items.put(8901, new Item(8901, "Chips", 1.99f, 1.0, false, false, false, false));
-        items.put(2345, new Item(2345, "Bread", 4.99f, 1.0, false, false, false, false));
-        items.put(6789, new Item(6789, "Cereal", 4.99f, 1.10, false, false, false, false));
-        items.put(0123, new Item(0123, "Plates", 5.99f, 1.5, false, false, true, false));
+        items.put(2335, new Item(2335, "Bread", 4.99f, 1.0, false, false, false, false));
+        items.put(6779, new Item(6779, "Cereal", 4.99f, 1.10, false, false, false, false));
+        items.put(0113, new Item(0113, "Plates", 5.99f, 1.5, false, false, true, false));
     }
 
     public static Item getItemByPLU(int plu) {
