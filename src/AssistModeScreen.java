@@ -19,7 +19,7 @@ public class AssistModeScreen extends JFrame {
         myCartLabel.setBounds(100, 50, 200, 30);
         myCartLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
     
-        JScrollPane scrollPane = new JScrollPane(itemList);  // Use the itemList you created above
+        JScrollPane scrollPane = new JScrollPane(itemList);
         scrollPane.setBounds(50, 100, 450, 400);
 
         JLabel subtotalLabel = new JLabel("Subtotal: ");
@@ -33,6 +33,14 @@ public class AssistModeScreen extends JFrame {
 
         JButton cancelItemButton = new JButton("Cancel Item");
         cancelItemButton.setBounds(50, 620, 200, 50);
+        cancelItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!listModel.isEmpty()) { // Check if the list isn't empty
+                    listModel.removeElementAt(listModel.size() - 1); // Remove the last item
+                }
+            }
+        });
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(225, 620, 200, 50);
